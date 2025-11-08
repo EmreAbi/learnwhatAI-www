@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "npm install --legacy-peer-deps && npx @cloudflare/next-on-pages",
+    "pages:build": "npx @cloudflare/next-on-pages@1",
     "pages:deploy": "npm run pages:build && wrangler pages deploy .vercel/output/static",
     "pages:watch": "npx @cloudflare/next-on-pages --watch",
     "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat"
@@ -23,7 +23,6 @@
     "framer-motion": "^11.3.8"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.2",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
