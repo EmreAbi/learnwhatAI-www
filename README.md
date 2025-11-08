@@ -1,0 +1,134 @@
+# LearnWhat.ai Landing Page
+
+A modern, SEO-optimized landing page for LearnWhat.ai built with Next.js 14, TypeScript, and Tailwind CSS.
+
+## Features
+
+- ⚡ **Fast & Optimized**: Built with Next.js 14 App Router for optimal performance
+- 🎨 **Modern Design**: Clean, professional design with brand colors and smooth animations
+- 📱 **Fully Responsive**: Mobile-first approach with responsive navigation
+- ♿ **Accessible**: WCAG compliant with proper ARIA labels and keyboard navigation
+- 🔍 **SEO-Ready**: Comprehensive metadata, Open Graph, and Twitter Card support
+- 🎭 **Animated**: Smooth scroll animations using Framer Motion
+- 📦 **Production-Ready**: Optimized images, lazy loading, and code splitting
+
+## Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Image Optimization**: next/image
+- **Font**: Inter (Google Fonts)
+
+## Brand Colors
+
+- Navy: `#142C5B`
+- Orange: `#F15A24`
+- Light Blue: `#66A9D9`
+- Paper: `#F7FAFF`
+- Gray: `#8CA3B8`
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ installed
+- npm or yarn package manager
+
+### Installation
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Run the development server:
+
+```bash
+npm run dev
+```
+
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Build for Production
+
+```bash
+npm run build
+npm start
+```
+
+## Project Structure
+
+```
+learnwhatAI-www/
+├── app/
+│   ├── layout.tsx       # Root layout with metadata
+│   ├── page.tsx         # Main landing page
+│   └── globals.css      # Global styles
+├── components/
+│   ├── Container.tsx    # Container wrapper
+│   ├── CTAButton.tsx    # Call-to-action button
+│   ├── FAQ.tsx          # FAQ accordion
+│   ├── FeatureCard.tsx  # Feature card with icon
+│   ├── Logo.tsx         # Logo component
+│   ├── Navigation.tsx   # Header navigation
+│   └── Section.tsx      # Section wrapper
+├── public/              # Static assets (images, icons)
+└── tailwind.config.ts   # Tailwind configuration
+```
+
+## Page Sections
+
+1. **Hero** - Main headline with CTA buttons
+2. **Problem** - Identifies user pain points
+3. **Meet LearnWhat.ai** - Product introduction
+4. **Features** - 5 key features with images
+5. **How It Works** - 3-step process
+6. **The Science** - Learning methodology
+7. **Personas** - Target audience
+8. **CTA** - Primary call-to-action
+9. **Tech-Powered** - Technology stack
+10. **FAQ** - Common questions
+11. **Footer** - Links and newsletter signup
+
+## Performance
+
+- Lighthouse Score: 95+ (target)
+- First Contentful Paint: < 1.5s
+- Time to Interactive: < 3.5s
+- Cumulative Layout Shift: < 0.1
+
+## Accessibility
+
+- Semantic HTML5 elements
+- ARIA labels for interactive elements
+- Skip-to-content link
+- Keyboard navigation support
+- Color contrast ratio: AAA standard
+
+## SEO Optimization
+
+- Meta tags (title, description, keywords)
+- Open Graph tags for social sharing
+- Twitter Card tags
+- Structured data ready
+- Sitemap.xml and robots.txt ready
+- PWA manifest included
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## License
+
+© 2025 LearnWhat.ai. All rights reserved.
+
+## Support
+
+For issues or questions, please contact: support@learnwhat.ai
