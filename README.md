@@ -69,12 +69,12 @@ When creating your Cloudflare Pages project, use these settings:
 
 ```
 Framework preset: Next.js
-Build command: npm install && npx @cloudflare/next-on-pages
+Build command: npm install --legacy-peer-deps && npx @cloudflare/next-on-pages
 Build output directory: .vercel/output/static
 Node.js version: 20.11.0
 ```
 
-**IMPORTANT:** Make sure to use `npm install &&` before the build command!
+**IMPORTANT:** The `--legacy-peer-deps` flag is required due to peer dependency conflicts!
 
 #### Environment Variables (if needed)
 
