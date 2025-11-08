@@ -59,6 +59,52 @@ npm run build
 npm start
 ```
 
+### Deploy to Cloudflare Pages
+
+This project is optimized for Cloudflare Pages deployment.
+
+#### Cloudflare Pages Settings
+
+When creating your Cloudflare Pages project, use these settings:
+
+```
+Framework preset: Next.js
+Build command: npx @cloudflare/next-on-pages
+Build output directory: .vercel/output/static
+Node.js version: 20.11.0
+```
+
+#### Environment Variables (if needed)
+
+In Cloudflare Pages dashboard → Settings → Environment Variables, add:
+- `NODE_VERSION`: `20.11.0`
+
+#### Deploy via Git
+
+1. Push your code to GitHub
+2. Connect your repository in Cloudflare Pages
+3. Cloudflare will automatically build and deploy
+
+#### Manual Deploy (via Wrangler CLI)
+
+```bash
+# Install dependencies
+npm install
+
+# Build for Cloudflare Pages
+npm run pages:build
+
+# Deploy (requires wrangler CLI installed)
+npm run pages:deploy
+```
+
+#### Important Notes for Cloudflare
+
+- Images are set to `unoptimized: true` (Cloudflare limitation)
+- All pages are static (no server-side rendering)
+- Edge functions are not used in this build
+- Font loading is done via Google Fonts CDN
+
 ## Project Structure
 
 ```
