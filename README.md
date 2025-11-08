@@ -76,18 +76,10 @@ Node.js version: 20.11.0
 
 **Note:** The `.npmrc` file handles peer dependency conflicts automatically.
 
-#### Compatibility Flags (REQUIRED)
+#### Compatibility Flags
 
-After creating your project, you MUST add the Node.js compatibility flag:
-
-1. Go to your Cloudflare Pages project
-2. **Settings** → **Functions**
-3. Under **Compatibility flags**, add `nodejs_compat` to both:
-   - Production compatibility flags
-   - Preview compatibility flags
-4. **Save** and **Retry deployment**
-
-Without this flag, you'll see a "Node.JS Compatibility Error" on your site.
+The `wrangler.toml` file automatically configures the required `nodejs_compat` flag.
+No manual configuration needed in Cloudflare dashboard!
 
 #### Environment Variables (if needed)
 
