@@ -1,0 +1,39 @@
+{
+  "generated_at": "2025-11-08T22:56:37.704002Z",
+  "files": [
+    "appicon_512.png",
+    "camera_upload.svg",
+    "check_validation.svg",
+    "dashboard_1600x1000.jpg",
+    "dashboard_2560x1600.jpg",
+    "device_laptop_2880x1800.jpg",
+    "device_phone_1242x2688.jpg",
+    "device_tablet_2048x1536.jpg",
+    "favicon_180.png",
+    "favicon_32.png",
+    "favicon_64.png",
+    "feature_A_upload_generate.png",
+    "feature_B_validation.png",
+    "feature_C_adaptive.png",
+    "feature_D_zero_setup.png",
+    "feature_E_progress.png",
+    "flashcards.svg",
+    "hero_16x9.jpg",
+    "hero_16x9_transparent.png",
+    "hero_4x3.jpg",
+    "hero_4x3_transparent.png",
+    "lightning_speed.svg",
+    "og_1200x630.jpg",
+    "progress_chart.svg",
+    "retry_loop.svg",
+    "shield_privacy.svg"
+  ],
+  "brand_colors": {
+    "navy": "#142C5B",
+    "orange": "#F15A24",
+    "light_blue": "#66A9D9",
+    "bg": "#F7FAFF",
+    "gray": "#E6EDF5",
+    "gray_dark": "#8CA3B8"
+  }
+}

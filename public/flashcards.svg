@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="160" viewBox="0 0 200 160">
+<rect x="20" y="30" rx="16" width="120" height="90" fill="#fff" stroke="#142C5B" stroke-width="6"/>
+<rect x="40" y="20" rx="16" width="120" height="90" fill="#F7FAFF" stroke="#8CA3B8" stroke-width="4"/>
+<text x="48" y="60" font-size="28" fill="#F15A24" font-family="DejaVu Sans">Q</text>
+<rect x="76" y="44" width="60" height="8" rx="4" fill="#142C5B"/>
+<rect x="76" y="60" width="70" height="8" rx="4" fill="#142C5B"/>
+</svg>
