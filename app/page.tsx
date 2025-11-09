@@ -7,6 +7,9 @@ import FAQ from '@/components/FAQ'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { getAllContent, getStorageUrl } from '@/lib/data/content'
 
+// Configure Edge Runtime for Cloudflare Pages
+export const runtime = 'edge'
+
 // Fallback data in case database is not set up yet
 const fallbackData = {
   hero: {
