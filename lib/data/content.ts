@@ -1,8 +1,8 @@
-import { createClient } from '@/lib/supabase/api'
+import { createAdminClient } from '@/lib/supabase/api'
 
 // Fetch hero section
 export async function getHero() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-hero')
     .select('*')
@@ -19,7 +19,7 @@ export async function getHero() {
 
 // Fetch problem section
 export async function getProblem() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-problem')
     .select('*')
@@ -36,7 +36,7 @@ export async function getProblem() {
 
 // Fetch meet section
 export async function getMeet() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-meet')
     .select('*')
@@ -53,7 +53,7 @@ export async function getMeet() {
 
 // Fetch features
 export async function getFeatures() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-features')
     .select('*')
@@ -70,7 +70,7 @@ export async function getFeatures() {
 
 // Fetch how it works steps
 export async function getHowItWorks() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-how-it-works')
     .select('*')
@@ -87,7 +87,7 @@ export async function getHowItWorks() {
 
 // Fetch science points
 export async function getScience() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-science')
     .select('*')
@@ -104,7 +104,7 @@ export async function getScience() {
 
 // Fetch personas
 export async function getPersonas() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-personas')
     .select('*')
@@ -121,7 +121,7 @@ export async function getPersonas() {
 
 // Fetch CTA section
 export async function getCTA() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-cta')
     .select('*')
@@ -138,7 +138,7 @@ export async function getCTA() {
 
 // Fetch tech stack
 export async function getTechStack() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-tech-stack')
     .select('*')
@@ -155,7 +155,7 @@ export async function getTechStack() {
 
 // Fetch FAQ
 export async function getFAQ() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-faq')
     .select('*')
@@ -172,7 +172,7 @@ export async function getFAQ() {
 
 // Fetch footer
 export async function getFooter() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('www-footer')
     .select('*')
