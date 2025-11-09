@@ -189,44 +189,62 @@ export async function getFooter() {
 
 // Fetch all content at once
 export async function getAllContent() {
-  const [
-    hero,
-    problem,
-    meet,
-    features,
-    howItWorks,
-    science,
-    personas,
-    cta,
-    techStack,
-    faq,
-    footer,
-  ] = await Promise.all([
-    getHero(),
-    getProblem(),
-    getMeet(),
-    getFeatures(),
-    getHowItWorks(),
-    getScience(),
-    getPersonas(),
-    getCTA(),
-    getTechStack(),
-    getFAQ(),
-    getFooter(),
-  ])
+  try {
+    const [
+      hero,
+      problem,
+      meet,
+      features,
+      howItWorks,
+      science,
+      personas,
+      cta,
+      techStack,
+      faq,
+      footer,
+    ] = await Promise.all([
+      getHero(),
+      getProblem(),
+      getMeet(),
+      getFeatures(),
+      getHowItWorks(),
+      getScience(),
+      getPersonas(),
+      getCTA(),
+      getTechStack(),
+      getFAQ(),
+      getFooter(),
+    ])
 
-  return {
-    hero,
-    problem,
-    meet,
-    features,
-    howItWorks,
-    science,
-    personas,
-    cta,
-    techStack,
-    faq,
-    footer,
+    return {
+      hero,
+      problem,
+      meet,
+      features,
+      howItWorks,
+      science,
+      personas,
+      cta,
+      techStack,
+      faq,
+      footer,
+    }
+  } catch (error) {
+    console.error('Error fetching content from Supabase:', error)
+    // Return empty data structure on error - page will use fallback
+    return {
+      hero: null,
+      problem: null,
+      meet: null,
+      features: [],
+      howItWorks: [],
+      science: [],
+      personas: [],
+      cta: null,
+      techStack: [],
+      faq: [],
+      footer: null,
+    }
   }
 }
 
