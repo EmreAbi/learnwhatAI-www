@@ -76,10 +76,20 @@ Node.js version: 20.11.0
 
 **Note:** The `.npmrc` file handles peer dependency conflicts automatically.
 
-#### Compatibility Flags
+#### ⚠️ Compatibility Flags Issue
 
-The `wrangler.toml` file automatically configures the required `nodejs_compat` flag.
-No manual configuration needed in Cloudflare dashboard!
+If you encounter "nodejs_compat" errors, **see [QUICKSTART.md](./QUICKSTART.md)** for the fix.
+
+**Quick solution:** Deploy via Wrangler CLI instead of Git-based deployments.
+
+```bash
+npm install -g wrangler
+wrangler login
+npx @cloudflare/next-on-pages@1
+npx wrangler pages deploy .vercel/output/static --project-name=learnwhatai-www
+```
+
+For detailed troubleshooting, see [CLOUDFLARE_SETUP.md](./CLOUDFLARE_SETUP.md).
 
 #### Environment Variables (if needed)
 
