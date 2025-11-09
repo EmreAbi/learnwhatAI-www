@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
+
+// Configure Edge Runtime for Cloudflare Pages
+export const runtime = 'edge'
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,16 +11,18 @@ export async function POST(request: NextRequest) {
     const adminPassword = process.env.ADMIN_PASSWORD || 'LearnWhat2025!'
 
     if (password === adminPassword) {
-      // Set session cookie
-      cookies().set('admin-session', 'authenticated', {
+      // Create response with session cookie
+      const response = NextResponse.json({ success: true })
+
+      response.cookies.set('admin-session', 'authenticated', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
         sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 7, // 7 days
         path: '/',
       })
 
-      return NextResponse.json({ success: true })
+      return response
     } else {
       return NextResponse.json(
         { error: 'Invalid password' },
@@ -34,7 +38,16 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE() {
-  // Logout
-  cookies().delete('admin-session')
-  return NextResponse.json({ success: true })
+  // Logout - remove session cookie
+  const response = NextResponse.json({ success: true })
+
+  response.cookies.set('admin-session', '', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+    maxAge: 0,
+    path: '/',
+  })
+
+  return response
 }
