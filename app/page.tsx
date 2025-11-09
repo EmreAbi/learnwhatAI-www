@@ -7,6 +7,7 @@ import FAQ from '@/components/FAQ'
 import { HeroSection } from '@/components/sections/HeroSection'
 import NewsletterForm from '@/components/NewsletterForm'
 import { getStorageUrl } from '@/lib/data/content'
+import { createClient } from '@/lib/supabase/server'
 
 // Configure Edge Runtime for Cloudflare Pages
 export const runtime = 'edge'
@@ -44,29 +45,56 @@ const fallbackData = {
 }
 
 export default async function Home() {
-  // Fetch all content from API
+  const supabase = createClient()
   let content: any
+
   try {
-    // Get base URL for API calls
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ||
-                    (typeof window !== 'undefined' ? window.location.origin : 'https://learnwhatai-www.pages.dev')
+    // Fetch all content in parallel
+    const [
+      heroResult,
+      problemResult,
+      meetResult,
+      featuresResult,
+      howItWorksResult,
+      scienceResult,
+      personasResult,
+      ctaResult,
+      techStackResult,
+      faqResult,
+      footerResult,
+    ] = await Promise.all([
+      supabase.from('www-hero').select('*').eq('is_active', true).single(),
+      supabase.from('www-problem').select('*').eq('is_active', true).single(),
+      supabase.from('www-meet').select('*').eq('is_active', true).single(),
+      supabase.from('www-features').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
+      supabase.from('www-how-it-works').select('*').eq('is_active', true).order('step_number', { ascending: true }),
+      supabase.from('www-science').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
+      supabase.from('www-personas').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
+      supabase.from('www-cta').select('*').eq('is_active', true).single(),
+      supabase.from('www-tech-stack').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
+      supabase.from('www-faq').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
+      supabase.from('www-footer').select('*').eq('is_active', true).single(),
+    ])
 
-    const response = await fetch(`${baseUrl}/api/content`, {
-      cache: 'no-store' // Always fetch fresh data for admin updates
-    })
-
-    if (response.ok) {
-      content = await response.json()
-    } else {
-      console.error('Failed to fetch content:', response.status)
-      content = fallbackData
+    content = {
+      hero: heroResult.error ? null : heroResult.data,
+      problem: problemResult.error ? null : problemResult.data,
+      meet: meetResult.error ? null : meetResult.data,
+      features: featuresResult.error ? [] : featuresResult.data || [],
+      howItWorks: howItWorksResult.error ? [] : howItWorksResult.data || [],
+      science: scienceResult.error ? [] : scienceResult.data || [],
+      personas: personasResult.error ? [] : personasResult.data || [],
+      cta: ctaResult.error ? null : ctaResult.data,
+      techStack: techStackResult.error ? [] : techStackResult.data || [],
+      faq: faqResult.error ? [] : faqResult.data || [],
+      footer: footerResult.error ? null : footerResult.data,
     }
   } catch (error) {
-    console.error('Error fetching content:', error)
+    console.error('Error fetching content directly in component:', error)
     content = fallbackData
   }
 
-  // Use fallback if database not set up
+  // Fallback if content is still missing
   if (!content.hero) {
     content = fallbackData
   }
