@@ -5,6 +5,7 @@ import Container from '@/components/Container'
 import FeatureCard from '@/components/FeatureCard'
 import FAQ from '@/components/FAQ'
 import { HeroSection } from '@/components/sections/HeroSection'
+import NewsletterForm from '@/components/NewsletterForm'
 import { getStorageUrl } from '@/lib/data/content'
 
 // Configure Edge Runtime for Cloudflare Pages
@@ -359,33 +360,7 @@ export default async function Home() {
               </div>
 
               {/* Newsletter */}
-              <div>
-                <h3 className="font-bold mb-4">
-                  {footer?.newsletter_title || 'Stay Updated'}
-                </h3>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    alert('Thanks for subscribing! (Demo only)')
-                  }}
-                  className="space-y-3"
-                >
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="your@email.com"
-                    required
-                    className="w-full px-4 py-2 rounded-lg text-brand-navy"
-                    aria-label="Email address"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full bg-brand-orange text-white px-4 py-2 rounded-lg font-semibold hover:brightness-95 transition-all"
-                  >
-                    Subscribe
-                  </button>
-                </form>
-              </div>
+              <NewsletterForm title={footer?.newsletter_title} />
             </div>
 
             {/* Bottom Bar */}
