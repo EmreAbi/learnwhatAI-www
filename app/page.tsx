@@ -7,7 +7,7 @@ import FAQ from '@/components/FAQ'
 import { HeroSection } from '@/components/sections/HeroSection'
 import NewsletterForm from '@/components/NewsletterForm'
 import { getStorageUrl } from '@/lib/data/content'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/api'
 
 // Configure Edge Runtime for Cloudflare Pages
 export const runtime = 'edge'
@@ -75,6 +75,19 @@ export default async function Home() {
       supabase.from('www-faq').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
       supabase.from('www-footer').select('*').eq('is_active', true).single(),
     ])
+
+    // Log any errors during fetch
+    if (heroResult.error) console.error('Hero fetch error:', heroResult.error)
+    if (problemResult.error) console.error('Problem fetch error:', problemResult.error)
+    if (meetResult.error) console.error('Meet fetch error:', meetResult.error)
+    if (featuresResult.error) console.error('Features fetch error:', featuresResult.error)
+    if (howItWorksResult.error) console.error('HowItWorks fetch error:', howItWorksResult.error)
+    if (scienceResult.error) console.error('Science fetch error:', scienceResult.error)
+    if (personasResult.error) console.error('Personas fetch error:', personasResult.error)
+    if (ctaResult.error) console.error('CTA fetch error:', ctaResult.error)
+    if (techStackResult.error) console.error('TechStack fetch error:', techStackResult.error)
+    if (faqResult.error) console.error('FAQ fetch error:', faqResult.error)
+    if (footerResult.error) console.error('Footer fetch error:', footerResult.error)
 
     content = {
       hero: heroResult.error ? null : heroResult.data,
