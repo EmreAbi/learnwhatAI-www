@@ -7,7 +7,7 @@ import FAQ from '@/components/FAQ'
 import { HeroSection } from '@/components/sections/HeroSection'
 import NewsletterForm from '@/components/NewsletterForm'
 import { getStorageUrl } from '@/lib/data/content'
-import { createClient } from '@/lib/supabase/api'
+import { createAdminClient } from '@/lib/supabase/api'
 
 // Configure Edge Runtime for Cloudflare Pages
 export const runtime = 'edge'
@@ -45,7 +45,7 @@ const fallbackData = {
 }
 
 export default async function Home() {
-  const supabase = createClient()
+  const supabase = createAdminClient()
   let content: any
 
   try {
