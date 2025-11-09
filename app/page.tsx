@@ -5,7 +5,7 @@ import Container from '@/components/Container'
 import FeatureCard from '@/components/FeatureCard'
 import FAQ from '@/components/FAQ'
 import { HeroSection } from '@/components/sections/HeroSection'
-import { getAllContent, getStorageUrl } from '@/lib/data/content'
+import { getStorageUrl } from '@/lib/data/content'
 
 // Configure Edge Runtime for Cloudflare Pages
 export const runtime = 'edge'
@@ -43,12 +43,31 @@ const fallbackData = {
 }
 
 export default async function Home() {
-  // Fetch all content from Supabase
-  let content = await getAllContent()
+  // Fetch all content from API
+  let content: any
+  try {
+    // Get base URL for API calls
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ||
+                    (typeof window !== 'undefined' ? window.location.origin : 'https://learnwhatai-www.pages.dev')
+
+    const response = await fetch(`${baseUrl}/api/content`, {
+      cache: 'no-store' // Always fetch fresh data for admin updates
+    })
+
+    if (response.ok) {
+      content = await response.json()
+    } else {
+      console.error('Failed to fetch content:', response.status)
+      content = fallbackData
+    }
+  } catch (error) {
+    console.error('Error fetching content:', error)
+    content = fallbackData
+  }
 
   // Use fallback if database not set up
   if (!content.hero) {
-    content = fallbackData as any
+    content = fallbackData
   }
 
   const {
@@ -126,7 +145,7 @@ export default async function Home() {
             centered
           >
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
+              {features.map((feature: any, index: number) => (
                 <FeatureCard
                   key={feature.id}
                   icon={feature.icon}
@@ -150,7 +169,7 @@ export default async function Home() {
             centered
           >
             <div className="grid md:grid-cols-3 gap-8 mb-12">
-              {howItWorks.map((step, index) => (
+              {howItWorks.map((step: any, index: number) => (
                 <div key={step.id} className="text-center">
                   <div className="bg-brand-orange w-16 h-16 rounded-full flex items-center justify-center text-3xl mb-6 mx-auto shadow-lg">
                     {step.icon}
@@ -184,7 +203,7 @@ export default async function Home() {
             centered
           >
             <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              {science.map((point) => (
+              {science.map((point: any) => (
                 <div
                   key={point.id}
                   className="bg-white rounded-2xl shadow-lg p-6 md:p-8"
@@ -212,7 +231,7 @@ export default async function Home() {
           >
             <div className="max-w-3xl mx-auto bg-brand-paper rounded-2xl shadow-lg p-8 md:p-12">
               <ul className="space-y-4">
-                {personas.map((persona) => (
+                {personas.map((persona: any) => (
                   <li key={persona.id} className="flex items-start gap-3">
                     <span className="text-brand-orange text-2xl">•</span>
                     <span className="text-lg text-gray-700 leading-relaxed">
@@ -235,7 +254,7 @@ export default async function Home() {
           >
             <div className="max-w-3xl mx-auto">
               <ol className="space-y-4 mb-10">
-                {(cta.steps as string[]).map((step, index) => (
+                {(cta.steps as string[]).map((step: string, index: number) => (
                   <li key={index} className="flex items-start gap-4 text-white text-lg">
                     <span className="bg-brand-orange rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
                       {index + 1}
@@ -266,7 +285,7 @@ export default async function Home() {
             centered
           >
             <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
-              {techStack.map((tech) => (
+              {techStack.map((tech: any) => (
                 <div
                   key={tech.id}
                   className="bg-brand-paper rounded-xl p-6 shadow"
@@ -288,7 +307,7 @@ export default async function Home() {
         {faq.length > 0 && (
           <Section id="faq" background="paper" title="Questions?" centered>
             <FAQ
-              items={faq.map((item) => ({
+              items={faq.map((item: any) => ({
                 question: item.question,
                 answer: item.answer,
               }))}
@@ -326,7 +345,7 @@ export default async function Home() {
                 <h3 className="font-bold mb-4">Quick Links</h3>
                 <ul className="space-y-2 text-brand-light">
                   {footer &&
-                    (footer.quick_links as any[]).map((link, index) => (
+                    (footer.quick_links as any[]).map((link: any, index: number) => (
                       <li key={index}>
                         <a
                           href={link.href}
