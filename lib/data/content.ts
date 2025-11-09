@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/api'
 
 // Fetch hero section
 export async function getHero() {

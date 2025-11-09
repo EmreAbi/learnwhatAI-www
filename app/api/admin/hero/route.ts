@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/api'
 
 // Configure Edge Runtime for Cloudflare Pages
 export const runtime = 'edge'
