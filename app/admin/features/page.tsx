@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Container from '@/components/Container'
 import Logo from '@/components/Logo'
+import ImageUpload from '@/components/admin/ImageUpload'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface Feature {
@@ -300,18 +301,12 @@ export default function AdminFeaturesPage() {
                     </button>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-brand-navy mb-2">
-                      Image Path (optional)
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.image}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-orange outline-none"
-                      placeholder="image.png"
-                    />
-                  </div>
+                  <ImageUpload
+                    label="Feature Image (optional)"
+                    value={formData.image}
+                    onChange={(path) => setFormData({ ...formData, image: path })}
+                    helpText="Upload feature image (recommended: 800x600px, max 5MB)"
+                  />
 
                   <div className="flex items-center">
                     <input

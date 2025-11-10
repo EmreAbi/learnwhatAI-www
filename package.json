@@ -11,6 +11,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "migrate-images": "tsx scripts/migrate-images-to-storage.ts",
     "pages:build": "npx @cloudflare/next-on-pages@1",
     "pages:deploy": "npm run pages:build && wrangler pages deploy .vercel/output/static",
     "pages:watch": "npx @cloudflare/next-on-pages --watch",
@@ -30,9 +31,11 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.19",
+    "dotenv": "^16.6.1",
     "eslint": "^9.39.1",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4",
+    "tsx": "^4.20.6",
     "typescript": "^5.5.3",
     "vercel": "^37.0.0"
   }
