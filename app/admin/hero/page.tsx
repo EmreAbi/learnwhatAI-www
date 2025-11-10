@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Container from '@/components/Container'
 import Logo from '@/components/Logo'
+import ImageUpload from '@/components/admin/ImageUpload'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface HeroData {
@@ -262,27 +263,12 @@ export default function AdminHeroPage() {
                 </div>
 
                 {/* Hero Image */}
-                <div>
-                  <label
-                    htmlFor="hero_image"
-                    className="block text-sm font-semibold text-brand-navy mb-2"
-                  >
-                    Hero Image Path
-                  </label>
-                  <input
-                    type="text"
-                    id="hero_image"
-                    name="hero_image"
-                    value={formData.hero_image}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
-                    placeholder="/hero_16x9_transparent.png or filename.png from storage"
-                  />
-                  <p className="text-sm text-brand-gray mt-2">
-                    Enter a full path (e.g., /hero.png) or just a filename if uploaded to
-                    Supabase storage
-                  </p>
-                </div>
+                <ImageUpload
+                  label="Hero Image"
+                  value={formData.hero_image}
+                  onChange={(path) => setFormData((prev) => ({ ...prev, hero_image: path }))}
+                  helpText="Upload hero image (recommended: 1600x900px or 16:9 ratio, max 5MB)"
+                />
 
                 {/* Active Toggle */}
                 <div className="flex items-center">
