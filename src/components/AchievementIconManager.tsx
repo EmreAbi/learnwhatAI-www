@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { supabase, ACHIEVEMENT_ICONS_BUCKET } from '@/lib/supabase'
+import { ACHIEVEMENT_ICONS_BUCKET } from '@/lib/supabase'
 import { Achievement, AchievementTier, AchievementCategory } from '@/types/achievement'
 
 const tierColors: Record<AchievementTier, string> = {
@@ -32,18 +32,41 @@ export default function AchievementIconManager() {
   const [uploadingId, setUploadingId] = useState<string | null>(null)
   const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({})
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [configError, setConfigError] = useState<string | null>(null)
   const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({})
+  const supabaseRef = useRef<ReturnType<typeof import('@/lib/supabase').getSupabase> | null>(null)
 
   useEffect(() => {
-    fetchAchievements()
+    initializeSupabase()
   }, [])
 
+  const initializeSupabase = async () => {
+    try {
+      const { getSupabase } = await import('@/lib/supabase')
+      supabaseRef.current = getSupabase()
+      fetchAchievements()
+    } catch (err) {
+      setConfigError(
+        err instanceof Error
+          ? err.message
+          : 'Failed to initialize Supabase. Check your environment configuration.'
+      )
+      setLoading(false)
+    }
+  }
+
   const fetchAchievements = async () => {
+    if (!supabaseRef.current) {
+      setError('Supabase client not initialized')
+      setLoading(false)
+      return
+    }
+
     try {
       setLoading(true)
       setError(null)
 
-      const { data, error: fetchError } = await supabase
+      const { data, error: fetchError } = await supabaseRef.current
         .from('achievements')
         .select('*')
         .order('sort_order', { ascending: true })
@@ -75,7 +98,7 @@ export default function AchievementIconManager() {
     }
 
     const achievement = achievements.find((a) => a.id === achievementId)
-    if (!achievement) return
+    if (!achievement || !supabaseRef.current) return
 
     try {
       setUploadingId(achievementId)
@@ -87,7 +110,7 @@ export default function AchievementIconManager() {
       const filePath = `${achievement.tier}/${achievement.key}.${fileExt}`
 
       // Upload to Supabase Storage
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabaseRef.current.storage
         .from(ACHIEVEMENT_ICONS_BUCKET)
         .upload(filePath, file, {
           cacheControl: '3600',
@@ -101,12 +124,12 @@ export default function AchievementIconManager() {
       // Get public URL
       const {
         data: { publicUrl },
-      } = supabase.storage.from(ACHIEVEMENT_ICONS_BUCKET).getPublicUrl(filePath)
+      } = supabaseRef.current.storage.from(ACHIEVEMENT_ICONS_BUCKET).getPublicUrl(filePath)
 
       setUploadProgress((prev) => ({ ...prev, [achievementId]: 75 }))
 
       // Update achievement record with new icon_url
-      const { error: updateError } = await supabase
+      const { error: updateError } = await supabaseRef.current
         .from('achievements')
         .update({ icon_url: publicUrl, updated_at: new Date().toISOString() })
         .eq('id', achievementId)
@@ -138,7 +161,7 @@ export default function AchievementIconManager() {
 
   const handleRemoveIcon = async (achievementId: string) => {
     const achievement = achievements.find((a) => a.id === achievementId)
-    if (!achievement || !achievement.icon_url) return
+    if (!achievement || !achievement.icon_url || !supabaseRef.current) return
 
     if (!confirm('Are you sure you want to remove this custom icon?')) return
 
@@ -152,7 +175,7 @@ export default function AchievementIconManager() {
         const filePath = urlParts[1]
 
         // Delete from storage
-        const { error: deleteError } = await supabase.storage
+        const { error: deleteError } = await supabaseRef.current.storage
           .from(ACHIEVEMENT_ICONS_BUCKET)
           .remove([filePath])
 
@@ -162,7 +185,7 @@ export default function AchievementIconManager() {
       }
 
       // Update achievement record
-      const { error: updateError } = await supabase
+      const { error: updateError } = await supabaseRef.current
         .from('achievements')
         .update({ icon_url: null, updated_at: new Date().toISOString() })
         .eq('id', achievementId)
@@ -181,6 +204,31 @@ export default function AchievementIconManager() {
     } finally {
       setUploadingId(null)
     }
+  }
+
+  if (configError) {
+    return (
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-yellow-800 mb-2">Configuration Required</h3>
+        <p className="text-yellow-700 mb-4">{configError}</p>
+        <div className="bg-white p-4 rounded border">
+          <p className="text-sm font-medium text-gray-700 mb-2">
+            Please configure the following environment variables:
+          </p>
+          <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+            <li>
+              <code className="bg-gray-100 px-1 rounded">NEXT_PUBLIC_SUPABASE_URL</code>
+            </li>
+            <li>
+              <code className="bg-gray-100 px-1 rounded">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>
+            </li>
+          </ul>
+          <p className="text-xs text-gray-500 mt-3">
+            You can find these values in your Supabase project settings.
+          </p>
+        </div>
+      </div>
+    )
   }
 
   if (loading) {
