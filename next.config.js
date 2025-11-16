@@ -1,15 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '*.supabase.co',
-        port: '',
-        pathname: '/storage/v1/object/public/**',
-      },
-    ],
+    formats: ['image/webp', 'image/avif'],
+    // Cloudflare Pages requires unoptimized images or custom loader
+    unoptimized: true,
   },
+  // Enable React strict mode
+  reactStrictMode: true,
+  // Output standalone for Cloudflare
+  output: 'standalone',
 }
 
 module.exports = nextConfig

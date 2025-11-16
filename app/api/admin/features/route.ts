@@ -1,0 +1,88 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { createAdminClient } from '@/lib/supabase/api'
+
+export const runtime = 'edge'
+
+export async function GET() {
+  try {
+    const supabase = createAdminClient()
+    const { data, error } = await supabase
+      .from('www-features')
+      .select('*')
+      .order('sort_order', { ascending: true })
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+
+    return NextResponse.json(data || [])
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch features' }, { status: 500 })
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const supabase = createAdminClient()
+
+    if (body.id) {
+      // Update existing
+      const { error } = await supabase
+        .from('www-features')
+        .update({
+          icon: body.icon,
+          title: body.title,
+          description: body.description,
+          items: body.items,
+          image: body.image,
+          sort_order: body.sort_order,
+          is_active: body.is_active,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', body.id)
+
+      if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 })
+      }
+    } else {
+      // Insert new
+      const { error } = await supabase.from('www-features').insert([
+        {
+          icon: body.icon,
+          title: body.title,
+          description: body.description,
+          items: body.items,
+          image: body.image,
+          sort_order: body.sort_order,
+          is_active: body.is_active,
+        },
+      ])
+
+      if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 })
+      }
+    }
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to save feature' }, { status: 500 })
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { id } = await request.json()
+    const supabase = createAdminClient()
+
+    const { error } = await supabase.from('www-features').delete().eq('id', id)
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 })
+    }
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to delete feature' }, { status: 500 })
+  }
+}

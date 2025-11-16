@@ -1,110 +1,197 @@
-# LearnWhatAI Admin Panel
+# LearnWhat.ai Landing Page
 
-Admin panel for managing LearnWhatAI application, including achievement icon uploads to Supabase Storage.
+A modern, SEO-optimized landing page for LearnWhat.ai built with Next.js 14, TypeScript, and Tailwind CSS.
 
 ## Features
 
-- **Achievement Icon Management**: Upload, replace, and remove custom icons for achievements
-- **Supabase Storage Integration**: Direct upload to `achievement-icons` bucket
-- **Visual Feedback**: Progress indicators, success/error messages
-- **Achievement Overview**: View all achievements with their properties (tier, category, required value)
+- ⚡ **Fast & Optimized**: Built with Next.js 14 App Router for optimal performance
+- 🎨 **Modern Design**: Clean, professional design with brand colors and smooth animations
+- 📱 **Fully Responsive**: Mobile-first approach with responsive navigation
+- ♿ **Accessible**: WCAG compliant with proper ARIA labels and keyboard navigation
+- 🔍 **SEO-Ready**: Comprehensive metadata, Open Graph, and Twitter Card support
+- 🎭 **Animated**: Smooth scroll animations using Framer Motion
+- 📦 **Production-Ready**: Optimized images, lazy loading, and code splitting
 
-## Setup
+## Tech Stack
 
-### 1. Install Dependencies
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Image Optimization**: next/image
+- **Font**: Inter (Google Fonts)
+
+## Brand Colors
+
+- Navy: `#142C5B`
+- Orange: `#F15A24`
+- Light Blue: `#66A9D9`
+- Paper: `#F7FAFF`
+- Gray: `#8CA3B8`
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ installed
+- npm or yarn package manager
+
+### Installation
+
+1. Install dependencies:
 
 ```bash
 npm install
 ```
 
-### 2. Configure Supabase
-
-Create a `.env.local` file in the root directory:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-```
-
-### 3. Supabase Storage Setup
-
-Ensure the `achievement-icons` bucket exists in your Supabase Storage:
-
-1. Go to Supabase Dashboard > Storage
-2. Create a new bucket named `achievement-icons`
-3. Set it as **PUBLIC** (so icons can be loaded without authentication)
-4. Add appropriate storage policies (see SQL migration in docs)
-
-### 4. Run Development Server
+2. Run the development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000/admin](http://localhost:3000/admin) to access the admin panel.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Usage
+### Build for Production
 
-### Uploading Achievement Icons
+```bash
+npm run build
+npm start
+```
 
-1. Navigate to the **Achievement Icons** tab
-2. Click **Upload** button next to an achievement
-3. Select an image file (PNG, JPG, WebP, or SVG, max 5MB)
-4. The icon will be uploaded to `achievement-icons/{tier}/{key}.{ext}`
-5. The `icon_url` field in the database will be automatically updated
+### Deploy to Cloudflare Pages
 
-### Icon Specifications
+This project is optimized for Cloudflare Pages deployment.
 
-- **Format**: PNG (recommended), JPG, WebP, or SVG
-- **Size**: 256x256 or 512x512 pixels recommended
-- **Max File Size**: 5MB
-- **Transparency**: PNG with transparency for best results
+#### Cloudflare Pages Settings
+
+When creating your Cloudflare Pages project, use these settings:
+
+```
+Framework preset: Next.js
+Build command: npx @cloudflare/next-on-pages@1
+Build output directory: .vercel/output/static
+Node.js version: 20.11.0
+```
+
+**Note:** The `.npmrc` file handles peer dependency conflicts automatically.
+
+#### ⚠️ Compatibility Flags Issue
+
+If you encounter "nodejs_compat" errors, **see [QUICKSTART.md](./QUICKSTART.md)** for the fix.
+
+**Quick solution:** Deploy via Wrangler CLI instead of Git-based deployments.
+
+```bash
+npm install -g wrangler
+wrangler login
+npx @cloudflare/next-on-pages@1
+npx wrangler pages deploy .vercel/output/static --project-name=learnwhatai-www
+```
+
+For detailed troubleshooting, see [CLOUDFLARE_SETUP.md](./CLOUDFLARE_SETUP.md).
+
+#### Environment Variables (if needed)
+
+In Cloudflare Pages dashboard → Settings → Environment Variables, add:
+- `NODE_VERSION`: `20.11.0`
+
+#### Deploy via Git
+
+1. Push your code to GitHub
+2. Connect your repository in Cloudflare Pages
+3. Cloudflare will automatically build and deploy
+
+#### Manual Deploy (via Wrangler CLI)
+
+```bash
+# Install dependencies
+npm install
+
+# Build for Cloudflare Pages
+npm run pages:build
+
+# Deploy (requires wrangler CLI installed)
+npm run pages:deploy
+```
+
+#### Important Notes for Cloudflare
+
+- Images are set to `unoptimized: true` (Cloudflare limitation)
+- All pages are static (no server-side rendering)
+- Edge functions are not used in this build
+- Font loading is done via Google Fonts CDN
 
 ## Project Structure
 
 ```
-src/
+learnwhatAI-www/
 ├── app/
-│   ├── admin/
-│   │   └── page.tsx          # Admin panel main page
-│   ├── globals.css           # Global styles
-│   ├── layout.tsx            # Root layout
-│   └── page.tsx              # Home page
+│   ├── layout.tsx       # Root layout with metadata
+│   ├── page.tsx         # Main landing page
+│   └── globals.css      # Global styles
 ├── components/
-│   ├── AdminTabs.tsx         # Tab navigation component
-│   └── AchievementIconManager.tsx  # Achievement icon upload manager
-├── lib/
-│   └── supabase.ts           # Supabase client configuration
-└── types/
-    └── achievement.ts        # TypeScript types for achievements
+│   ├── Container.tsx    # Container wrapper
+│   ├── CTAButton.tsx    # Call-to-action button
+│   ├── FAQ.tsx          # FAQ accordion
+│   ├── FeatureCard.tsx  # Feature card with icon
+│   ├── Logo.tsx         # Logo component
+│   ├── Navigation.tsx   # Header navigation
+│   └── Section.tsx      # Section wrapper
+├── public/              # Static assets (images, icons)
+└── tailwind.config.ts   # Tailwind configuration
 ```
 
-## Database Schema
+## Page Sections
 
-The admin panel works with the following table structure:
+1. **Hero** - Main headline with CTA buttons
+2. **Problem** - Identifies user pain points
+3. **Meet LearnWhat.ai** - Product introduction
+4. **Features** - 5 key features with images
+5. **How It Works** - 3-step process
+6. **The Science** - Learning methodology
+7. **Personas** - Target audience
+8. **CTA** - Primary call-to-action
+9. **Tech-Powered** - Technology stack
+10. **FAQ** - Common questions
+11. **Footer** - Links and newsletter signup
 
-```sql
-achievements (
-  id UUID PRIMARY KEY,
-  key TEXT UNIQUE NOT NULL,
-  category achievement_category NOT NULL,
-  tier achievement_tier NOT NULL,
-  required_value INTEGER NOT NULL,
-  icon TEXT NOT NULL,        -- SF Symbol name (fallback)
-  icon_url TEXT DEFAULT NULL, -- Custom icon URL (if uploaded)
-  sort_order INTEGER NOT NULL,
-  is_active BOOLEAN NOT NULL,
-  created_at TIMESTAMPTZ,
-  updated_at TIMESTAMPTZ
-)
-```
+## Performance
 
-## iOS App Integration
+- Lighthouse Score: 95+ (target)
+- First Contentful Paint: < 1.5s
+- Time to Interactive: < 3.5s
+- Cumulative Layout Shift: < 0.1
 
-The iOS app should check `icon_url` first:
-- If `icon_url` is set, load the custom image from the URL
-- If `icon_url` is NULL, use the SF Symbol specified in `icon` field
+## Accessibility
+
+- Semantic HTML5 elements
+- ARIA labels for interactive elements
+- Skip-to-content link
+- Keyboard navigation support
+- Color contrast ratio: AAA standard
+
+## SEO Optimization
+
+- Meta tags (title, description, keywords)
+- Open Graph tags for social sharing
+- Twitter Card tags
+- Structured data ready
+- Sitemap.xml and robots.txt ready
+- PWA manifest included
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
 ## License
 
-Private - LearnWhatAI
+© 2025 LearnWhat.ai. All rights reserved.
+
+## Support
+
+For issues or questions, please contact: support@learnwhat.ai
