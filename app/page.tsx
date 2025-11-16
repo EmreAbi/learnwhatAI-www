@@ -38,6 +38,7 @@ const fallbackData = {
   howItWorks: [],
   science: [],
   personas: [],
+  achievements: [],
   cta: null,
   techStack: [],
   faq: [],
@@ -58,6 +59,7 @@ export default async function Home() {
       howItWorksResult,
       scienceResult,
       personasResult,
+      achievementsResult,
       ctaResult,
       techStackResult,
       faqResult,
@@ -70,6 +72,7 @@ export default async function Home() {
       supabase.from('www-how-it-works').select('*').eq('is_active', true).order('step_number', { ascending: true }),
       supabase.from('www-science').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
       supabase.from('www-personas').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
+      supabase.from('achievements').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
       supabase.from('www-cta').select('*').eq('is_active', true).single(),
       supabase.from('www-tech-stack').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
       supabase.from('www-faq').select('*').eq('is_active', true).order('sort_order', { ascending: true }),
@@ -84,6 +87,7 @@ export default async function Home() {
     if (howItWorksResult.error) console.error('HowItWorks fetch error:', howItWorksResult.error)
     if (scienceResult.error) console.error('Science fetch error:', scienceResult.error)
     if (personasResult.error) console.error('Personas fetch error:', personasResult.error)
+    if (achievementsResult.error) console.error('Achievements fetch error:', achievementsResult.error)
     if (ctaResult.error) console.error('CTA fetch error:', ctaResult.error)
     if (techStackResult.error) console.error('TechStack fetch error:', techStackResult.error)
     if (faqResult.error) console.error('FAQ fetch error:', faqResult.error)
@@ -97,6 +101,7 @@ export default async function Home() {
       howItWorks: howItWorksResult.error ? [] : howItWorksResult.data || [],
       science: scienceResult.error ? [] : scienceResult.data || [],
       personas: personasResult.error ? [] : personasResult.data || [],
+      achievements: achievementsResult.error ? [] : achievementsResult.data || [],
       cta: ctaResult.error ? null : ctaResult.data,
       techStack: techStackResult.error ? [] : techStackResult.data || [],
       faq: faqResult.error ? [] : faqResult.data || [],
@@ -120,6 +125,7 @@ export default async function Home() {
     howItWorks,
     science,
     personas,
+    achievements,
     cta,
     techStack,
     faq,
@@ -282,6 +288,53 @@ export default async function Home() {
                   </li>
                 ))}
               </ul>
+            </div>
+          </Section>
+        )}
+
+        {/* Achievements Section */}
+        {achievements.length > 0 && (
+          <Section
+            id="achievements"
+            background="paper"
+            title="Track Your Progress"
+            subtitle="Unlock achievements as you study and grow your knowledge"
+            centered
+          >
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 max-w-5xl mx-auto">
+              {achievements.map((achievement: any) => {
+                const tierColors: Record<string, string> = {
+                  bronze: 'from-amber-600 to-amber-400',
+                  silver: 'from-gray-400 to-gray-200',
+                  gold: 'from-yellow-400 to-yellow-200',
+                  platinum: 'from-purple-400 to-purple-200',
+                }
+                
+                return (
+                  <div
+                    key={achievement.id}
+                    className="flex flex-col items-center text-center group"
+                  >
+                    <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${tierColors[achievement.tier]} shadow-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                      {achievement.icon_url ? (
+                        <img
+                          src={achievement.icon_url}
+                          alt={achievement.key}
+                          className="w-12 h-12 object-contain"
+                        />
+                      ) : (
+                        <span className="text-3xl text-white">{achievement.icon}</span>
+                      )}
+                    </div>
+                    <p className="text-xs font-semibold text-brand-navy capitalize">
+                      {achievement.tier}
+                    </p>
+                    <p className="text-sm text-brand-gray mt-1">
+                      {achievement.key.replace(/_/g, ' ')}
+                    </p>
+                  </div>
+                )
+              })}
             </div>
           </Section>
         )}
