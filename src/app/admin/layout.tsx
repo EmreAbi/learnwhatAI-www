@@ -1,6 +1,5 @@
-// Force dynamic rendering for admin pages
+// Force dynamic rendering for admin pages (skip static generation)
 export const dynamic = 'force-dynamic'
-export const runtime = 'edge'
 
 export default function AdminLayout({
   children,
