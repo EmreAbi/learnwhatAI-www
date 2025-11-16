@@ -331,7 +331,9 @@ export default function AchievementIconManager() {
                     <div className="flex items-center space-x-2">
                       <input
                         type="file"
-                        ref={(el) => (fileInputRefs.current[achievement.id] = el)}
+                        ref={(el) => {
+                          fileInputRefs.current[achievement.id] = el
+                        }}
                         className="hidden"
                         accept="image/png,image/jpeg,image/webp,image/svg+xml"
                         onChange={(e) => {
