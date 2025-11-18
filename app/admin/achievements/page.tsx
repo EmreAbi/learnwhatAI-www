@@ -109,12 +109,8 @@ export default function AchievementsAdmin() {
         throw new Error(data.error || 'Upload failed')
       }
 
-      // Update local state
-      setAchievements((prev) =>
-        prev.map((a) =>
-          a.id === achievement.id ? { ...a, icon_url: data.icon_url } : a
-        )
-      )
+      // Refresh achievements list to get updated data from database
+      await fetchAchievements()
 
       toast.success(`Icon uploaded for "${achievement.key}"`)
     } catch (error: any) {
@@ -143,12 +139,8 @@ export default function AchievementsAdmin() {
         throw new Error(data.error || 'Delete failed')
       }
 
-      // Update local state
-      setAchievements((prev) =>
-        prev.map((a) =>
-          a.id === achievement.id ? { ...a, icon_url: null } : a
-        )
-      )
+      // Refresh achievements list to get updated data from database
+      await fetchAchievements()
 
       toast.success(`Icon removed for "${achievement.key}"`)
     } catch (error: any) {

@@ -60,6 +60,8 @@ export default function AdminMeetPage() {
 
       if (response.ok) {
         toast.success('Meet section updated successfully!')
+        // Refresh data to show updated values
+        await fetchData()
       } else {
         const error = await response.json()
         toast.error(error.error || 'Failed to update')

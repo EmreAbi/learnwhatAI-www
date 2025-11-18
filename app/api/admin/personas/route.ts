@@ -51,6 +51,7 @@ export async function DELETE(request: NextRequest) {
     const supabase = createAdminClient()
     const { error } = await supabase.from('www-personas').delete().eq('id', id)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    
     return NextResponse.json({ success: true })
   } catch (error) {
     return NextResponse.json({ error: 'Failed to delete data' }, { status: 500 })

@@ -61,6 +61,8 @@ export default function AdminCTAPage() {
 
       if (response.ok) {
         toast.success('CTA section updated!')
+        // Refresh data to show updated values
+        await fetchData()
       } else {
         toast.error('Failed to update')
       }

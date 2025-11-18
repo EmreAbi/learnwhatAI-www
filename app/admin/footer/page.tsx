@@ -63,6 +63,8 @@ export default function AdminFooterPage() {
 
       if (response.ok) {
         toast.success('Footer updated!')
+        // Refresh data to show updated values
+        await fetchData()
       } else {
         toast.error('Failed to update')
       }

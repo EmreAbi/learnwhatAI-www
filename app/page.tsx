@@ -12,6 +12,10 @@ import { createAdminClient } from '@/lib/supabase/api'
 // Configure Edge Runtime for Cloudflare Pages
 export const runtime = 'edge'
 
+// Disable caching to always fetch fresh content from database
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 // Fallback data in case database is not set up yet
 const fallbackData = {
   hero: {

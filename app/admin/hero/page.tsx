@@ -67,6 +67,8 @@ export default function AdminHeroPage() {
 
       if (response.ok) {
         toast.success('Hero section updated successfully!')
+        // Refresh data to show updated values
+        await fetchHeroData()
       } else {
         const error = await response.json()
         toast.error(error.error || 'Failed to update hero section')
