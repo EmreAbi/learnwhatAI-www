@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Container from '@/components/Container'
 import Logo from '@/components/Logo'
+import ImageUpload from '@/components/admin/ImageUpload'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface MeetData {
@@ -12,6 +13,7 @@ interface MeetData {
   subtitle: string
   card_title: string
   card_content: string
+  image?: string | null
   is_active: boolean
 }
 
@@ -24,6 +26,7 @@ export default function AdminMeetPage() {
     subtitle: '',
     card_title: '',
     card_content: '',
+    image: null,
     is_active: true,
   })
 
@@ -188,6 +191,13 @@ export default function AdminMeetPage() {
                     placeholder="Because your time is precious..."
                   />
                 </div>
+
+                <ImageUpload
+                  label="Image (optional)"
+                  value={formData.image || null}
+                  onChange={(path) => setFormData((prev) => ({ ...prev, image: path }))}
+                  helpText="Upload an image for the meet section (recommended: 1200x800px, max 5MB)"
+                />
 
                 <div className="flex items-center">
                   <input

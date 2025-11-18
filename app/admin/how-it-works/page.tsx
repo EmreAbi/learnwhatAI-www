@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Container from '@/components/Container'
 import Logo from '@/components/Logo'
+import ImageUpload from '@/components/admin/ImageUpload'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface Step {
@@ -12,6 +13,7 @@ interface Step {
   icon: string
   title: string
   description: string
+  image?: string | null
   sort_order: number
   is_active: boolean
 }
@@ -26,6 +28,7 @@ export default function AdminHowItWorksPage() {
     icon: '',
     title: '',
     description: '',
+    image: null,
     sort_order: 0,
     is_active: true,
   })
@@ -58,6 +61,7 @@ export default function AdminHowItWorksPage() {
       icon: '',
       title: '',
       description: '',
+      image: null,
       sort_order: steps.length,
       is_active: true,
     })
@@ -237,6 +241,13 @@ export default function AdminHowItWorksPage() {
                       placeholder="Snap a photo or paste your notes..."
                     />
                   </div>
+
+                  <ImageUpload
+                    label="Image (optional)"
+                    value={formData.image || null}
+                    onChange={(path) => setFormData((prev) => ({ ...prev, image: path }))}
+                    helpText="Upload an image for this step (recommended: 800x600px, max 5MB)"
+                  />
 
                   <div className="flex items-center">
                     <input
