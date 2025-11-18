@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Container from '@/components/Container'
 import Logo from '@/components/Logo'
+import ImageUpload from '@/components/admin/ImageUpload'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface Persona {
   id?: string
   text: string
+  image?: string | null
   sort_order: number
   is_active: boolean
 }
@@ -20,6 +22,7 @@ export default function AdminPersonasPage() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<Persona>({
     text: '',
+    image: null,
     sort_order: 0,
     is_active: true,
   })
@@ -49,6 +52,7 @@ export default function AdminPersonasPage() {
     setEditingId('new')
     setFormData({
       text: '',
+      image: null,
       sort_order: personas.length,
       is_active: true,
     })
@@ -167,6 +171,13 @@ export default function AdminPersonasPage() {
                       placeholder="High school students preparing for exams..."
                     />
                   </div>
+
+                  <ImageUpload
+                    label="Image (optional)"
+                    value={formData.image || null}
+                    onChange={(path) => setFormData((prev) => ({ ...prev, image: path }))}
+                    helpText="Upload an image for this persona (recommended: 400x400px, max 5MB)"
+                  />
 
                   <div>
                     <label className="block text-sm font-semibold text-brand-navy mb-2">

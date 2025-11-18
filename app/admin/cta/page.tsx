@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Container from '@/components/Container'
 import Logo from '@/components/Logo'
+import ImageUpload from '@/components/admin/ImageUpload'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface CTAData {
@@ -11,6 +12,7 @@ interface CTAData {
   title: string
   subtitle: string
   steps: string[]
+  image?: string | null
   button_text: string
   button_link: string
   is_active: boolean
@@ -24,6 +26,7 @@ export default function AdminCTAPage() {
     title: '',
     subtitle: '',
     steps: [''],
+    image: null,
     button_text: '',
     button_link: '',
     is_active: true,
@@ -183,6 +186,13 @@ export default function AdminCTAPage() {
                     + Add Step
                   </button>
                 </div>
+
+                <ImageUpload
+                  label="Image (optional)"
+                  value={formData.image || null}
+                  onChange={(path) => setFormData((prev) => ({ ...prev, image: path }))}
+                  helpText="Upload an image for the CTA section (recommended: 1200x800px, max 5MB)"
+                />
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>

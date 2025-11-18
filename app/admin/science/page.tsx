@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Container from '@/components/Container'
 import Logo from '@/components/Logo'
+import ImageUpload from '@/components/admin/ImageUpload'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface SciencePoint {
   id?: string
   title: string
   description: string
+  image?: string | null
   sort_order: number
   is_active: boolean
 }
@@ -22,6 +24,7 @@ export default function AdminSciencePage() {
   const [formData, setFormData] = useState<SciencePoint>({
     title: '',
     description: '',
+    image: null,
     sort_order: 0,
     is_active: true,
   })
@@ -52,6 +55,7 @@ export default function AdminSciencePage() {
     setFormData({
       title: '',
       description: '',
+      image: null,
       sort_order: points.length,
       is_active: true,
     })
@@ -186,6 +190,13 @@ export default function AdminSciencePage() {
                       placeholder="Studies show that..."
                     />
                   </div>
+
+                  <ImageUpload
+                    label="Image (optional)"
+                    value={formData.image || null}
+                    onChange={(path) => setFormData((prev) => ({ ...prev, image: path }))}
+                    helpText="Upload an image for this science point (recommended: 800x600px, max 5MB)"
+                  />
 
                   <div>
                     <label className="block text-sm font-semibold text-brand-navy mb-2">

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Container from '@/components/Container'
 import Logo from '@/components/Logo'
+import ImageUpload from '@/components/admin/ImageUpload'
 import toast, { Toaster } from 'react-hot-toast'
 
 interface ProblemData {
@@ -11,6 +12,7 @@ interface ProblemData {
   title: string
   description: string
   highlight_text: string
+  image?: string | null
   is_active: boolean
 }
 
@@ -22,6 +24,7 @@ export default function AdminProblemPage() {
     title: '',
     description: '',
     highlight_text: '',
+    image: null,
     is_active: true,
   })
 
@@ -171,6 +174,13 @@ export default function AdminProblemPage() {
                     placeholder="What if there was a better way?"
                   />
                 </div>
+
+                <ImageUpload
+                  label="Image (optional)"
+                  value={formData.image || null}
+                  onChange={(path) => setFormData((prev) => ({ ...prev, image: path }))}
+                  helpText="Upload an image for the problem section (recommended: 1200x800px, max 5MB)"
+                />
 
                 <div className="flex items-center">
                   <input
